@@ -1,5 +1,6 @@
 import app from "@/app";
 import Author from "@/models/Author";
+import { StatusCodes } from "http-status-codes";
 import supertest from "supertest";
 import { dbTestFunctions } from "../db";
 
@@ -94,6 +95,25 @@ test("get all Authors", async () => {
   expect(res.body.authors.length).toBeGreaterThan(1);
 });
 
+test("delete an Author", async () => {
+  const authorData = {
+    firstName: "John",
+    lastName: "Doe",
+    age: 30,
+    email: "john.doe@email.com",
+  };
+
+  const author = await Author.create(authorData);
+
+  const res = await request.delete(`/authors/delete/${author._id}`);
+
+  expect(res.statusCode).toBe(StatusCodes.OK);
+
+  const deleted = await Author.findOne({ id: author._id });
+
+  expect(deleted).toBeFalsy();
+});
+
 test("create Author with invalid params", async () => {
   const authorData = {
     firstName: "",
@@ -107,6 +127,21 @@ test("create Author with invalid params", async () => {
     .send(authorData);
 
   expect(res.body.errors).toHaveLength(2);
+});
+
+test("get an non-existing Author", async () => {
+  const res = await request.get(`/authors/get/62e03cbc816b30c6d72883ed`);
+
+  expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
+});
+
+test("update an non-existing Author", async () => {
+  const res = await request
+    .patch(`/authors/update/62e03cbc816b30c6d72883ed`)
+    .set({ "Content-Type": "application/json" })
+    .send({ email: "email@test.com" });
+
+  expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
 });
 
 test("get an Author with invalid id", async () => {
