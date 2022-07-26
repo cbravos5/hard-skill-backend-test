@@ -55,3 +55,18 @@ test("update an Author and returns it", async () => {
 
   expect(author.email).toEqual(newEmail);
 });
+
+test("get an Author with valid id", async () => {
+  const authorData = {
+    firstName: "John",
+    lastName: "Doe",
+    age: 30,
+    email: "john.doe@email.com",
+  };
+
+  const author = await Author.create(authorData);
+
+  const res = await request.get(`/authors/get/${author._id}`);
+
+  expect(res.body.author.email).toEqual(authorData.email);
+});
