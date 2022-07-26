@@ -13,8 +13,8 @@
             "@/*": [
                 "./src/*"
             ],
-            "@@/*": [
-                "./*"
+            "@models/*": [
+                "./src/models/*"
             ]
         },
         "module": "commonjs",
