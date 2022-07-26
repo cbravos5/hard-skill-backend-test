@@ -8,7 +8,11 @@ const request = supertest(app);
 
 beforeAll(async () => await dbTestFunctions.connect());
 
-it("Creates an Author and returns it", async () => {
+afterAll(async () => await dbTestFunctions.closeDatabase());
+
+afterEach(async () => await dbTestFunctions.clearDatabase());
+
+test("create and Author and retirns it", async () => {
   const authorData = {
     firstName: "John",
     lastName: "Doe",
@@ -21,8 +25,4 @@ it("Creates an Author and returns it", async () => {
     .set({ "Content-Type": "application/json" })
     .send(authorData);
   expect(res.body.author.firstName).toEqual(authorData.firstName);
-});
-
-afterAll(async () => {
-  await dbTestFunctions.closeDatabase();
 });
