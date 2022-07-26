@@ -109,7 +109,7 @@ test("create Author with invalid params", async () => {
   expect(res.body.errors).toHaveLength(2);
 });
 
-test("get an Author with invalid", async () => {
+test("get an Author with invalid id", async () => {
   const res = await request.get(`/authors/get/abc`);
 
   expect(res.body).toHaveProperty("errors");
