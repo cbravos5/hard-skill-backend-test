@@ -70,3 +70,26 @@ test("get an Author with valid id", async () => {
 
   expect(res.body.author.email).toEqual(authorData.email);
 });
+
+test("get all Authors", async () => {
+  const authorsData = [
+    {
+      firstName: "John",
+      lastName: "Doe",
+      age: 30,
+      email: "john.doe@email.com",
+    },
+    {
+      firstName: "Brendan",
+      lastName: "Cash",
+      age: 25,
+      email: "dolor@icloud.org",
+    },
+  ];
+
+  await Author.insertMany(authorsData);
+
+  const res = await request.get(`/authors/get`);
+
+  expect(res.body.authors.length).toBeGreaterThan(1);
+});
