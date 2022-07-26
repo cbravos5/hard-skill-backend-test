@@ -11,8 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
 
-app.get("/", (_req, res) => {
-  res.send("Healthy");
-});
+// Health check
+app.get("/ping", (_req, res) => res.status(200).send({ message: "Healthy" }));
 
 export default app;
