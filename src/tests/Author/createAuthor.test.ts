@@ -144,6 +144,12 @@ test("update an non-existing Author", async () => {
   expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
 });
 
+test("delete an non-existing Author", async () => {
+  const res = await request.delete(`/authors/delete/62e03cbc816b30c6d72883ed`);
+
+  expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
+});
+
 test("get an Author with invalid id", async () => {
   const res = await request.get(`/authors/get/abc`);
 
