@@ -33,8 +33,10 @@ const closeDatabase = async () => {
 };
 
 const clearDatabase = async () => {
-  const collections = mongoose.connection.collections;
-  for (const key in collections) await collections[key].drop();
+  try {
+    const collections = mongoose.connection.collections;
+    for (const key in collections) await collections[key].drop();
+  } catch (error) {}
 };
 
 export const dbTestFunctions = { connect, closeDatabase, clearDatabase };

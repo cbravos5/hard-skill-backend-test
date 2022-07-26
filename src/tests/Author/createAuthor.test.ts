@@ -93,3 +93,18 @@ test("get all Authors", async () => {
 
   expect(res.body.authors.length).toBeGreaterThan(1);
 });
+
+test("create Author with invalid params", async () => {
+  const authorData = {
+    firstName: "",
+    lastName: "Doe",
+    email: "john.doe@email.com",
+  };
+
+  const res = await request
+    .post("/authors/create")
+    .set({ "Content-Type": "application/json" })
+    .send(authorData);
+
+  expect(res.body.errors.length).toBe(2);
+});
