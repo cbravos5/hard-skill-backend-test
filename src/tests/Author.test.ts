@@ -2,7 +2,7 @@ import app from "@/app";
 import Author from "@/models/Author";
 import { StatusCodes } from "http-status-codes";
 import supertest from "supertest";
-import { dbTestFunctions } from "../db";
+import { dbTestFunctions } from "./db";
 
 jest.setTimeout(10000);
 
