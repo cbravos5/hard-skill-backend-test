@@ -1,5 +1,6 @@
 import Author, { IAuthor } from "@models/Author";
 import { Request, Response } from "express";
+import { StatusCodes } from "http-status-codes";
 
 const createAuthor = async (req: Request, res: Response) => {
   try {
@@ -14,9 +15,9 @@ const createAuthor = async (req: Request, res: Response) => {
 
     await author.save();
 
-    return res.status(201).json({ author });
+    return res.status(StatusCodes.CREATED).json({ author });
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
 
@@ -26,11 +27,14 @@ const readAuthor = async (req: Request, res: Response) => {
 
     const author = await Author.findById(id);
 
-    if (!author) return res.status(404).json({ message: "Author not found" });
+    if (!author)
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: "Author not found" });
 
-    return res.status(200).json({ author });
+    return res.status(StatusCodes.OK).json({ author });
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
 
@@ -38,9 +42,9 @@ const readAllAuthor = async (req: Request, res: Response) => {
   try {
     const authors = await Author.find();
 
-    return res.status(200).json({ authors });
+    return res.status(StatusCodes.OK).json({ authors });
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
 
@@ -50,16 +54,19 @@ const updateAuthor = async (req: Request, res: Response) => {
 
     const author = await Author.findById(id);
 
-    if (!author) return res.status(404).json({ message: "Author not found" });
+    if (!author)
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: "Author not found" });
 
     const data: IAuthor = req.body;
 
     author.set(data);
     await author.save();
 
-    return res.status(201).json({ author });
+    return res.status(StatusCodes.CREATED).json({ author });
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
 
@@ -69,13 +76,16 @@ const deleteAuthor = async (req: Request, res: Response) => {
 
     const author = await Author.findById(id);
 
-    if (!author) return res.status(404).json({ message: "Author not found" });
+    if (!author)
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: "Author not found" });
 
     await author.delete();
 
-    return res.status(200).json({ message: "Author deleted" });
+    return res.status(StatusCodes.OK).json({ message: "Author deleted" });
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
 
