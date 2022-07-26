@@ -20,9 +20,7 @@ const connect = async () => {
 
   await mongoose.connect(dbURI, options);
 
-  server = app.listen(3000, () => {
-    console.log(`server listening on 3000`);
-  });
+  server = app.listen(3000);
 };
 
 const closeDatabase = async () => {

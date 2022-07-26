@@ -106,5 +106,11 @@ test("create Author with invalid params", async () => {
     .set({ "Content-Type": "application/json" })
     .send(authorData);
 
-  expect(res.body.errors.length).toBe(2);
+  expect(res.body.errors).toHaveLength(2);
+});
+
+test("get an Author with invalid", async () => {
+  const res = await request.get(`/authors/get/abc`);
+
+  expect(res.body).toHaveProperty("errors");
 });
