@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import authorRoutes from "./routes/Author";
 
 const app = express();
 
@@ -13,5 +14,8 @@ app.use(cors());
 
 // Health check
 app.get("/ping", (_req, res) => res.status(200).send({ message: "Healthy" }));
+
+// Routes
+app.use("/authors", authorRoutes);
 
 export default app;
