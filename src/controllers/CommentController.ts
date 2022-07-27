@@ -56,7 +56,7 @@ const readComment = async (req: Request, res: Response) => {
 
 const readAllComment = async (req: Request, res: Response) => {
   try {
-    const comments = await Comment.find().populate("article");
+    const comments = await Comment.find();
 
     return res.status(StatusCodes.OK).json({ comments });
   } catch (error) {

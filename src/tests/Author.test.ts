@@ -1,4 +1,5 @@
 import app from "@/app";
+import Article from "@/models/Article";
 import Author from "@/models/Author";
 import { StatusCodes } from "http-status-codes";
 import supertest from "supertest";
@@ -154,4 +155,43 @@ test("get an Author with invalid id", async () => {
   const res = await request.get(`/authors/get/abc`);
 
   expect(res.body).toHaveProperty("errors");
+});
+
+test("get an Author with articles and valid id", async () => {
+  const authorData = {
+    firstName: "John",
+    lastName: "Doe",
+    age: 30,
+    email: "john.doe@email.com",
+  };
+
+  const author = await Author.create(authorData);
+
+  const articleData = {
+    title: "A test title",
+    description: "A test description",
+    text: "A test text",
+    author: author,
+  };
+
+  const article = await Article.create(articleData);
+
+  await Author.updateOne(
+    { _id: author._id },
+    {
+      $push: { articles: article._id },
+    }
+  );
+
+  const res = await request.get(`/authors/get/${author._id}/articles`);
+
+  expect(res.body.author.articles).toHaveLength(1);
+});
+
+test("get an non-existing Author with articles", async () => {
+  const res = await request.get(
+    `/authors/get/62e03cbc816b30c6d72883ed/articles`
+  );
+
+  expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
 });
