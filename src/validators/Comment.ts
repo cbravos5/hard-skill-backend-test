@@ -7,7 +7,7 @@ const validateCommentCreate = [
 
 const validateCommentUpdate = [
   body("text").optional({ checkFalsy: true }).isString().isLength({ max: 280 }),
-  body("authorId").optional({ checkFalsy: true }).isMongoId(),
+  body("authorId", "param not accepted").not().exists(),
 ];
 
 export default { validateCommentCreate, validateCommentUpdate };

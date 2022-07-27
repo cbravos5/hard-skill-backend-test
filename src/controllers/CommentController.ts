@@ -7,7 +7,7 @@ const createComment = async (req: Request, res: Response) => {
   try {
     const { text, authorId } = req.body;
 
-    const author = await Author.findOne({ id: authorId });
+    const author = authorId ? await Author.findOne({ id: authorId }) : null;
 
     if (authorId && !author)
       return res
@@ -58,16 +58,19 @@ const updateComment = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const comment = await Comment.findById(id);
+    const comment = await Comment.findById(id).populate("author");
+    console.log("salve");
 
     if (!comment)
       return res
         .status(StatusCodes.NOT_FOUND)
         .json({ message: "Comment not found" });
 
-    const data = req.body;
+    const { text } = req.body;
 
-    comment.set(data);
+    comment.set({
+      text: text || comment.text,
+    });
 
     await comment.save();
 
