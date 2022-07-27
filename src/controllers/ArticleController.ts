@@ -32,13 +32,20 @@ const createArticle = async (req: Request, res: Response) => {
 
     await article.save();
 
-    author.articles.push(article);
-
-    await author.save();
+    await Author.updateOne(
+      { _id: author._id },
+      {
+        $push: { articles: article._id },
+      }
+    );
 
     if (category) {
-      category.articles.push(article);
-      await category.save();
+      await Category.updateOne(
+        { _id: category._id },
+        {
+          $push: { articles: article._id },
+        }
+      );
     }
 
     return res.status(StatusCodes.CREATED).json({ article });
@@ -113,8 +120,12 @@ const updateArticle = async (req: Request, res: Response) => {
           $pull: { articles: article._id },
         }
       );
-      author.articles.push(article);
-      await author.save();
+      await Author.updateOne(
+        { _id: author._id },
+        {
+          $push: { articles: article._id },
+        }
+      );
     }
 
     // remove from actual category and add to new category
@@ -125,8 +136,12 @@ const updateArticle = async (req: Request, res: Response) => {
           $pull: { articles: article._id },
         }
       );
-      category.articles.push(article);
-      await category.save();
+      await Category.updateOne(
+        { _id: category._id },
+        {
+          $push: { articles: article._id },
+        }
+      );
     }
 
     article.set({
