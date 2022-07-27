@@ -5,18 +5,11 @@ import { StatusCodes } from "http-status-codes";
 
 const createComment = async (req: Request, res: Response) => {
   try {
-    const { text, authorId } = req.body;
-
-    const author = authorId ? await Author.findOne({ id: authorId }) : null;
-
-    if (authorId && !author)
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ error: "Author not found" });
+    const { text, creator } = req.body;
 
     const comment = new Comment({
       text,
-      author: author || null,
+      creator: creator || null,
     });
 
     await comment.save();
@@ -31,7 +24,7 @@ const readComment = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const comment = await Comment.findById(id).populate("author");
+    const comment = await Comment.findById(id);
 
     if (!comment)
       return res
@@ -46,7 +39,7 @@ const readComment = async (req: Request, res: Response) => {
 
 const readAllComment = async (req: Request, res: Response) => {
   try {
-    const categories = await Comment.find().populate("author");
+    const categories = await Comment.find();
 
     return res.status(StatusCodes.OK).json({ categories });
   } catch (error) {
@@ -58,15 +51,14 @@ const updateComment = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const comment = await Comment.findById(id).populate("author");
-    console.log("salve");
+    const comment = await Comment.findById(id);
 
     if (!comment)
       return res
         .status(StatusCodes.NOT_FOUND)
         .json({ message: "Comment not found" });
 
-    const { text } = req.body;
+    const { text, creator } = req.body;
 
     comment.set({
       text: text || comment.text,
