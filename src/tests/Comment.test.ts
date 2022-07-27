@@ -145,6 +145,18 @@ describe("tests that need a created Article", () => {
 
     expect(res.body.errors).toHaveLength(1);
   });
+
+  test("create a Comment with non-existing article", async () => {
+    const res = await request
+      .post("/comments/create")
+      .set({ "Content-Type": "application/json" })
+      .send({
+        text: "Test text",
+        articleId: "62e03cbc816b30c6d72883ed",
+      });
+
+    expect(res.statusCode).toEqual(StatusCodes.NOT_FOUND);
+  });
 });
 
 test("get a non-existing Comment", async () => {
