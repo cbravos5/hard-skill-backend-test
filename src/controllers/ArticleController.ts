@@ -75,7 +75,7 @@ const readArticle = async (req: Request, res: Response) => {
 
 const readAllArticle = async (req: Request, res: Response) => {
   try {
-    const articles = await Article.find().populate(["author", "category"]);
+    const articles = await Article.find();
 
     return res.status(StatusCodes.OK).json({ articles });
   } catch (error) {
