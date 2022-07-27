@@ -38,4 +38,11 @@ categoryRouter.delete(
   CategoryController.deleteCategory
 );
 
+categoryRouter.get(
+  "/get/:id/articles",
+  CommonValidator.validateId,
+  validateErrors,
+  CategoryController.readCategoryArticles
+);
+
 export default categoryRouter;

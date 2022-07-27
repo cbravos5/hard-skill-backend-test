@@ -90,10 +90,28 @@ const deleteCategory = async (req: Request, res: Response) => {
   }
 };
 
+const readCategoryArticles = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const category = await Category.findById(id).populate("articles");
+
+    if (!category)
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: "Category not found" });
+
+    return res.status(StatusCodes.OK).json({ category });
+  } catch (error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
+  }
+};
+
 export default {
   createCategory,
   readCategory,
   readAllCategory,
   updateCategory,
   deleteCategory,
+  readCategoryArticles,
 };
