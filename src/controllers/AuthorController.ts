@@ -92,7 +92,7 @@ const deleteAuthor = async (req: Request, res: Response) => {
 
     if (author.articles.length > 0)
       return res
-        .status(StatusCodes.NOT_ACCEPTABLE)
+        .status(StatusCodes.CONFLICT)
         .json({ message: "Author has active articles" });
 
     await author.delete();

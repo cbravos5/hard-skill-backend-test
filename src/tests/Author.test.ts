@@ -195,3 +195,34 @@ test("get a non-existing Author with articles", async () => {
 
   expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
 });
+
+test("delete an Author with active articles", async () => {
+  const author = await Author.create({
+    firstName: "John",
+    lastName: "Doe",
+    age: 30,
+    email: "john.doe@email.com",
+  });
+
+  const article = await Article.create({
+    title: "A test title",
+    description: "A test description",
+    text: "A test text",
+    author,
+  });
+
+  await Author.updateOne(
+    { _id: author._id },
+    {
+      $push: { articles: article._id },
+    }
+  );
+
+  const res = await request.delete(`/authors/delete/${author._id}`);
+
+  expect(res.statusCode).toBe(StatusCodes.OK);
+
+  const deleted = await Author.findById(author._id);
+
+  expect(deleted).toBeFalsy();
+});
