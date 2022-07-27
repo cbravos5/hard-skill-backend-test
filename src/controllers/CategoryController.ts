@@ -57,9 +57,12 @@ const updateCategory = async (req: Request, res: Response) => {
         .status(StatusCodes.NOT_FOUND)
         .json({ message: "Category not found" });
 
-    const data: ICategory = req.body;
+    const { name, type }: ICategory = req.body;
 
-    category.set(data);
+    category.set({
+      name: name || category.name,
+      type: type || category.type,
+    });
     await category.save();
 
     return res.status(StatusCodes.CREATED).json({ category });

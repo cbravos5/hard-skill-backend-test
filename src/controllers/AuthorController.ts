@@ -59,9 +59,14 @@ const updateAuthor = async (req: Request, res: Response) => {
         .status(StatusCodes.NOT_FOUND)
         .json({ message: "Author not found" });
 
-    const data: IAuthor = req.body;
+    const { firstName, lastName, age, email }: IAuthor = req.body;
 
-    author.set(data);
+    author.set({
+      firstName: firstName || author.firstName,
+      lastName: lastName || author.lastName,
+      age: age || author.age,
+      email: email || author.email,
+    });
     await author.save();
 
     return res.status(StatusCodes.CREATED).json({ author });
