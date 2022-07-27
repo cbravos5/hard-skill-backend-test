@@ -3,6 +3,7 @@ import cors from "cors";
 import authorRoutes from "./routes/Author";
 import categoryRoutes from "./routes/Category";
 import commentRoutes from "./routes/Comment";
+import articleRoutes from "./routes/Article";
 
 const app = express();
 
@@ -21,5 +22,6 @@ app.get("/ping", (_req, res) => res.status(200).send({ message: "Healthy" }));
 app.use("/authors", authorRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/comments", commentRoutes);
+app.use("/articles", articleRoutes);
 
 export default app;
