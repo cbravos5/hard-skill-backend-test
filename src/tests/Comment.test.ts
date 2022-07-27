@@ -72,6 +72,7 @@ describe("tests that need a created Article", () => {
       text: "Test comment",
       article,
     });
+
     const newText = "Text 2";
 
     const res = await request
@@ -79,9 +80,9 @@ describe("tests that need a created Article", () => {
       .set({ "Content-Type": "application/json" })
       .send({ text: newText });
 
-    expect(res.body.comment.type).toEqual(newText);
+    expect(res.body.comment.text).toEqual(newText);
 
-    const comment = await Comment.findOne({ id: oldComment._id });
+    const comment = await Comment.findById(oldComment._id);
 
     expect(comment.text).toEqual(newText);
   });
@@ -133,15 +134,42 @@ describe("tests that need a created Article", () => {
     expect(deleted).toBeFalsy();
   });
 
-  test("create Comment with invalid params", async () => {
+  test("create a Comment with invalid params", async () => {
     const res = await request
       .post("/comments/create")
       .set({ "Content-Type": "application/json" })
       .send({
         text: "",
-        article,
+        articleId: article._id,
       });
 
     expect(res.body.errors).toHaveLength(1);
   });
+});
+
+test("get a non-existing Comment", async () => {
+  const res = await request.get(`/comments/get/62e03cbc816b30c6d72883ed`);
+
+  expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
+});
+
+test("update a non-existing Comment", async () => {
+  const res = await request
+    .patch(`/comments/update/62e03cbc816b30c6d72883ed`)
+    .set({ "Content-Type": "application/json" })
+    .send({ type: "Test type" });
+
+  expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
+});
+
+test("delete a non-existing Comment", async () => {
+  const res = await request.delete(`/comments/delete/62e03cbc816b30c6d72883ed`);
+
+  expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
+});
+
+test("get a Comment with invalid id", async () => {
+  const res = await request.get(`/comments/get/abc`);
+
+  expect(res.body).toHaveProperty("errors");
 });
