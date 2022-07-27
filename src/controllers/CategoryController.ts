@@ -13,7 +13,7 @@ const createCategory = async (req: Request, res: Response) => {
 
     await category.save();
 
-    return res.status(StatusCodes.CREATED).json({ Category });
+    return res.status(StatusCodes.CREATED).json({ category });
   } catch (error) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
