@@ -115,7 +115,7 @@ test("delete an Author", async () => {
   expect(deleted).toBeFalsy();
 });
 
-test("create Author with invalid params", async () => {
+test("create an Author with invalid params", async () => {
   const authorData = {
     firstName: "",
     lastName: "Doe",
@@ -130,13 +130,13 @@ test("create Author with invalid params", async () => {
   expect(res.body.errors).toHaveLength(2);
 });
 
-test("get an non-existing Author", async () => {
+test("get a non-existing Author", async () => {
   const res = await request.get(`/authors/get/62e03cbc816b30c6d72883ed`);
 
   expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
 });
 
-test("update an non-existing Author", async () => {
+test("update a non-existing Author", async () => {
   const res = await request
     .patch(`/authors/update/62e03cbc816b30c6d72883ed`)
     .set({ "Content-Type": "application/json" })
@@ -145,7 +145,7 @@ test("update an non-existing Author", async () => {
   expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
 });
 
-test("delete an non-existing Author", async () => {
+test("delete a non-existing Author", async () => {
   const res = await request.delete(`/authors/delete/62e03cbc816b30c6d72883ed`);
 
   expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
@@ -188,7 +188,7 @@ test("get an Author with articles and valid id", async () => {
   expect(res.body.author.articles).toHaveLength(1);
 });
 
-test("get an non-existing Author with articles", async () => {
+test("get a non-existing Author with articles", async () => {
   const res = await request.get(
     `/authors/get/62e03cbc816b30c6d72883ed/articles`
   );

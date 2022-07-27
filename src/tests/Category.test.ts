@@ -16,7 +16,7 @@ afterAll(async () => await dbTestFunctions.closeDatabase());
 
 afterEach(async () => await dbTestFunctions.clearDatabase());
 
-test("create an Category and returns it", async () => {
+test("create a Category and returns it", async () => {
   const categoryData = {
     name: "Test category",
     type: "Test type",
@@ -34,7 +34,7 @@ test("create an Category and returns it", async () => {
   expect(category).toBeTruthy();
 });
 
-test("update an Category and returns it", async () => {
+test("update a Category and returns it", async () => {
   const categoryData = {
     name: "Test category",
     type: "Test type",
@@ -55,7 +55,7 @@ test("update an Category and returns it", async () => {
   expect(category.type).toEqual(newType);
 });
 
-test("get an Category with valid id", async () => {
+test("get a Category with valid id", async () => {
   const categoryData = {
     name: "Test category",
     type: "Test type",
@@ -87,7 +87,7 @@ test("get all Categories", async () => {
   expect(res.body.categories.length).toBeGreaterThan(1);
 });
 
-test("delete an Category", async () => {
+test("delete a Category", async () => {
   const categoryData = {
     name: "Test category",
     type: "Test type",
@@ -104,7 +104,7 @@ test("delete an Category", async () => {
   expect(deleted).toBeFalsy();
 });
 
-test("create Category with invalid params", async () => {
+test("create a Category with invalid params", async () => {
   const categoryData = {
     name: "",
     type: "Test type",
@@ -118,13 +118,13 @@ test("create Category with invalid params", async () => {
   expect(res.body.errors).toHaveLength(1);
 });
 
-test("get an non-existing Category", async () => {
+test("get a non-existing Category", async () => {
   const res = await request.get(`/categories/get/62e03cbc816b30c6d72883ed`);
 
   expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
 });
 
-test("update an non-existing Category", async () => {
+test("update a non-existing Category", async () => {
   const res = await request
     .patch(`/categories/update/62e03cbc816b30c6d72883ed`)
     .set({ "Content-Type": "application/json" })
@@ -133,7 +133,7 @@ test("update an non-existing Category", async () => {
   expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
 });
 
-test("delete an non-existing Category", async () => {
+test("delete a non-existing Category", async () => {
   const res = await request.delete(
     `/categories/delete/62e03cbc816b30c6d72883ed`
   );
@@ -141,13 +141,13 @@ test("delete an non-existing Category", async () => {
   expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
 });
 
-test("get an Category with invalid id", async () => {
+test("get a Category with invalid id", async () => {
   const res = await request.get(`/categories/get/abc`);
 
   expect(res.body).toHaveProperty("errors");
 });
 
-test("get an Category with articles and valid id", async () => {
+test("get a Category with articles and valid id", async () => {
   const categoryData = {
     name: "Test category",
     type: "Test type",
@@ -186,7 +186,7 @@ test("get an Category with articles and valid id", async () => {
   expect(res.body.category.articles).toHaveLength(1);
 });
 
-test("get an non-existing Category with articles", async () => {
+test("get a non-existing Category with articles", async () => {
   const res = await request.get(
     `/categories/get/62e03cbc816b30c6d72883ed/articles`
   );
