@@ -22,8 +22,17 @@ const createComment = async (req: Request, res: Response) => {
 
     await comment.save();
 
+    await Article.updateOne(
+      { _id: article._id },
+      {
+        $push: { comments: comment._id },
+      }
+    );
+
     return res.status(StatusCodes.CREATED).json({ comment });
   } catch (error) {
+    console.log(error);
+
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
@@ -92,6 +101,13 @@ const deleteComment = async (req: Request, res: Response) => {
         .json({ message: "Comment not found" });
 
     await comment.delete();
+
+    await Article.updateOne(
+      { _id: comment.article },
+      {
+        $pull: { comments: comment._id },
+      }
+    );
 
     return res.status(StatusCodes.OK).json({ message: "Comment deleted" });
   } catch (error) {
