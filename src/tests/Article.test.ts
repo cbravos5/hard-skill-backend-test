@@ -283,78 +283,39 @@ describe("tests that need a created Author and Category", () => {
 
     expect(res.body.article.comments).toHaveLength(1);
   });
-
-  test("get a non-existing Article with articles", async () => {
-    const res = await request.get(
-      `/articles/get/62e03cbc816b30c6d72883ed/comments`
-    );
-
-    expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
-  });
 });
 
-//  test("get a non-existing Article", async () => {
-//    const res = await request.get(`/articles/get/62e03cbc816b30c6d72883ed`);
+test("get a non-existing Article", async () => {
+  const res = await request.get(`/articles/get/62e03cbc816b30c6d72883ed`);
 
-//    expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
-//  });
+  expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
+});
 
-// test("update a non-existing Article", async () => {
-//   const res = await request
-//     .patch(`/articles/update/62e03cbc816b30c6d72883ed`)
-//     .set({ "Content-Type": "application/json" })
-//     .send({ email: "email@test.com" });
+test("update a non-existing Article", async () => {
+  const res = await request
+    .patch(`/articles/update/62e03cbc816b30c6d72883ed`)
+    .set({ "Content-Type": "application/json" })
+    .send({ text: "Test text" });
 
-//   expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
-// });
+  expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
+});
 
-// test("delete a non-existing Article", async () => {
-//   const res = await request.delete(`/articles/delete/62e03cbc816b30c6d72883ed`);
+test("delete a non-existing Article", async () => {
+  const res = await request.delete(`/articles/delete/62e03cbc816b30c6d72883ed`);
 
-//   expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
-// });
+  expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
+});
 
-// test("get an Article with invalid id", async () => {
-//   const res = await request.get(`/articles/get/abc`);
+test("get an Article with invalid id", async () => {
+  const res = await request.get(`/articles/get/abc`);
 
-//   expect(res.body).toHaveProperty("errors");
-// });
+  expect(res.body).toHaveProperty("errors");
+});
 
-// test("get an Article with articles and valid id", async () => {
-//   const articleData = {
-//     firstName: "John",
-//     lastName: "Doe",
-//     age: 30,
-//     email: "john.doe@email.com",
-//   };
+test("get a non-existing Article with comments", async () => {
+  const res = await request.get(
+    `/articles/get/62e03cbc816b30c6d72883ed/comments`
+  );
 
-//   const article = await Article.create(articleData);
-
-//   const articleData = {
-//     title: "A test title",
-//     description: "A test description",
-//     text: "A test text",
-//     article: article,
-//   };
-
-//   const article = await Article.create(articleData);
-
-//   await Article.updateOne(
-//     { _id: article._id },
-//     {
-//       $push: { articles: article._id },
-//     }
-//   );
-
-//   const res = await request.get(`/articles/get/${article._id}/articles`);
-
-//   expect(res.body.article.articles).toHaveLength(1);
-// });
-
-// test("get a non-existing Article with articles", async () => {
-//   const res = await request.get(
-//     `/articles/get/62e03cbc816b30c6d72883ed/articles`
-//   );
-
-//   expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
-// });
+  expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
+});
