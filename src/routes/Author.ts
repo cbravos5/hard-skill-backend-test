@@ -38,4 +38,11 @@ authorRouter.delete(
   AuthorController.deleteAuthor
 );
 
+authorRouter.get(
+  "/get/:id/articles",
+  CommonValidator.validateId,
+  validateErrors,
+  AuthorController.readAuthorArticles
+);
+
 export default authorRouter;

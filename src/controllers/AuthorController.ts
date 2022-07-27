@@ -94,10 +94,28 @@ const deleteAuthor = async (req: Request, res: Response) => {
   }
 };
 
+const readAuthorArticles = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const author = await Author.findById(id).populate("articles");
+
+    if (!author)
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: "Author not found" });
+
+    return res.status(StatusCodes.OK).json({ author });
+  } catch (error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
+  }
+};
+
 export default {
   createAuthor,
   readAuthor,
   readAllAuthor,
   updateAuthor,
   deleteAuthor,
+  readAuthorArticles,
 };
