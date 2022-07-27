@@ -32,8 +32,19 @@ const createArticle = async (req: Request, res: Response) => {
 
     await article.save();
 
+    author.articles.push(article);
+
+    await author.save();
+
+    if (category) {
+      category.articles.push(article);
+      await category.save();
+    }
+
     return res.status(StatusCodes.CREATED).json({ article });
   } catch (error) {
+    console.log(error);
+
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
@@ -80,6 +91,7 @@ const updateArticle = async (req: Request, res: Response) => {
 
     const author = authorId ? await Author.findById(authorId) : null;
 
+    // if author is updating then checks if found one
     if (authorId && !author)
       return res
         .status(StatusCodes.NOT_FOUND)
@@ -87,10 +99,36 @@ const updateArticle = async (req: Request, res: Response) => {
 
     const category = categoryId ? await Category.findById(categoryId) : null;
 
+    // if category is updating then checks if found one
     if (categoryId && !category)
       return res
         .status(StatusCodes.NOT_FOUND)
         .json({ message: "Category not found" });
+
+    // remove from actual author and add to new author
+    if (author) {
+      await Author.updateOne(
+        { _id: article.author },
+        {
+          $pull: { articles: article._id },
+        }
+      );
+      author.articles.push(article);
+      await author.save();
+    }
+
+    // remove from actual category and add to new category
+    if (category) {
+      await Category.updateOne(
+        { _id: article.category },
+        {
+          $pull: { articles: article._id },
+        }
+      );
+      category.articles.push(article);
+      await category.save();
+    }
+
     article.set({
       title: title || article.title,
       description: description || article.description,
@@ -98,10 +136,13 @@ const updateArticle = async (req: Request, res: Response) => {
       author: author || article.author,
       category: category || article.category,
     });
+
     await article.save();
 
     return res.status(StatusCodes.CREATED).json({ article });
   } catch (error) {
+    console.log(error);
+
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
@@ -116,6 +157,21 @@ const deleteArticle = async (req: Request, res: Response) => {
       return res
         .status(StatusCodes.NOT_FOUND)
         .json({ message: "Article not found" });
+
+    await Author.updateOne(
+      { _id: article.author },
+      {
+        $pull: { articles: article._id },
+      }
+    );
+
+    if (article.category)
+      await Category.updateOne(
+        { _id: article.category },
+        {
+          $pull: { articles: article._id },
+        }
+      );
 
     await article.delete();
 

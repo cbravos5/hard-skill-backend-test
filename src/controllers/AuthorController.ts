@@ -86,6 +86,11 @@ const deleteAuthor = async (req: Request, res: Response) => {
         .status(StatusCodes.NOT_FOUND)
         .json({ message: "Author not found" });
 
+    if (author.articles.length > 0)
+      return res
+        .status(StatusCodes.NOT_ACCEPTABLE)
+        .json({ message: "Author has active articles" });
+
     await author.delete();
 
     return res.status(StatusCodes.OK).json({ message: "Author deleted" });
