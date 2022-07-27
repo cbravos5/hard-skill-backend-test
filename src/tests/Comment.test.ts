@@ -35,10 +35,10 @@ describe("tests that need a created Article", () => {
     });
   });
 
-  test("create an Comment and returns it", async () => {
+  test("create a Comment with creator and returns it", async () => {
     const commentData = {
       text: "Test comment",
-      article: "Test type",
+      creator: "Test Creator",
       articleId: article._id,
     };
 
@@ -47,10 +47,101 @@ describe("tests that need a created Article", () => {
       .set({ "Content-Type": "application/json" })
       .send(commentData);
 
-    expect(res.body.comment.text).toEqual(commentData.text);
+    expect(res.body.comment.creator).toEqual(commentData.creator);
 
     const comment = await Comment.findOne({ id: res.body.comment._id });
 
     expect(comment).toBeTruthy();
+  });
+
+  test("create an anonymous Comment and returns it", async () => {
+    const res = await request
+      .post("/comments/create")
+      .set({ "Content-Type": "application/json" })
+      .send({ text: "Test comment", articleId: article._id });
+
+    expect(res.body.comment.creator).toBeFalsy();
+
+    const comment = await Comment.findOne({ id: res.body.comment._id });
+
+    expect(comment).toBeTruthy();
+  });
+
+  test("update a Comment and returns it", async () => {
+    const oldComment = await Comment.create({
+      text: "Test comment",
+      article,
+    });
+    const newText = "Text 2";
+
+    const res = await request
+      .patch(`/comments/update/${oldComment._id}`)
+      .set({ "Content-Type": "application/json" })
+      .send({ text: newText });
+
+    expect(res.body.comment.type).toEqual(newText);
+
+    const comment = await Comment.findOne({ id: oldComment._id });
+
+    expect(comment.text).toEqual(newText);
+  });
+
+  test("get a Comment with valid id", async () => {
+    const commentData = {
+      text: "Test comment",
+      article,
+    };
+
+    const comment = await Comment.create(commentData);
+
+    const res = await request.get(`/comments/get/${comment._id}`);
+
+    expect(res.body.comment.text).toEqual(commentData.text);
+  });
+
+  test("get all Comments", async () => {
+    const commentsData = [
+      {
+        text: "Test comment 1",
+        article,
+      },
+      {
+        text: "Test comment 2",
+        article,
+      },
+    ];
+
+    await Comment.insertMany(commentsData);
+
+    const res = await request.get(`/comments/get`);
+
+    expect(res.body.comments.length).toBeGreaterThan(1);
+  });
+
+  test("delete a Comment", async () => {
+    const comment = await Comment.create({
+      text: "Test comment",
+      article,
+    });
+
+    const res = await request.delete(`/comments/delete/${comment._id}`);
+
+    expect(res.statusCode).toBe(StatusCodes.OK);
+
+    const deleted = await Comment.findById(comment._id);
+
+    expect(deleted).toBeFalsy();
+  });
+
+  test("create Comment with invalid params", async () => {
+    const res = await request
+      .post("/comments/create")
+      .set({ "Content-Type": "application/json" })
+      .send({
+        text: "",
+        article,
+      });
+
+    expect(res.body.errors).toHaveLength(1);
   });
 });
