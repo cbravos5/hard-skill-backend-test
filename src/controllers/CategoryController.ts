@@ -15,6 +15,7 @@ const createCategory = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.CREATED).json({ category });
   } catch (error) {
+    console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
@@ -32,6 +33,7 @@ const readCategory = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.OK).json({ category });
   } catch (error) {
+    console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
@@ -42,6 +44,7 @@ const readAllCategory = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.OK).json({ categories });
   } catch (error) {
+    console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
@@ -67,6 +70,7 @@ const updateCategory = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.CREATED).json({ category });
   } catch (error) {
+    console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
@@ -86,6 +90,7 @@ const deleteCategory = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.OK).json({ message: "Category deleted" });
   } catch (error) {
+    console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
@@ -103,6 +108,7 @@ const readCategoryArticles = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.OK).json({ category });
   } catch (error) {
+    console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };

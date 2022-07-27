@@ -69,6 +69,7 @@ const readArticle = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.OK).json({ article });
   } catch (error) {
+    console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
@@ -79,6 +80,7 @@ const readAllArticle = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.OK).json({ articles });
   } catch (error) {
+    console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
@@ -157,7 +159,6 @@ const updateArticle = async (req: Request, res: Response) => {
     return res.status(StatusCodes.CREATED).json({ article });
   } catch (error) {
     console.log(error);
-
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
@@ -192,6 +193,7 @@ const deleteArticle = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.OK).json({ message: "Article deleted" });
   } catch (error) {
+    console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
@@ -209,6 +211,7 @@ const readArticleComments = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.OK).json({ article });
   } catch (error) {
+    console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };

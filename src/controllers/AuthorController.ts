@@ -17,6 +17,7 @@ const createAuthor = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.CREATED).json({ author });
   } catch (error) {
+    console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
@@ -34,6 +35,7 @@ const readAuthor = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.OK).json({ author });
   } catch (error) {
+    console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
@@ -44,6 +46,7 @@ const readAllAuthor = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.OK).json({ authors });
   } catch (error) {
+    console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
@@ -71,6 +74,7 @@ const updateAuthor = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.CREATED).json({ author });
   } catch (error) {
+    console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
@@ -95,6 +99,7 @@ const deleteAuthor = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.OK).json({ message: "Author deleted" });
   } catch (error) {
+    console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
@@ -112,6 +117,7 @@ const readAuthorArticles = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.OK).json({ author });
   } catch (error) {
+    console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };

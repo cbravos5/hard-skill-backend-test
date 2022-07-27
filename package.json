@@ -13,7 +13,7 @@
     "build": "tsc",
     "nodemon": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' -r ts-node/register/transpile-only -r tsconfig-paths/register -r dotenv/config --exec 'ts-node --files' src/index.ts",
     "test": "jest --runInBand ./src/tests",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --runInBand --coverage"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",

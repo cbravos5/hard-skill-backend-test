@@ -50,6 +50,7 @@ const readComment = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.OK).json({ comment });
   } catch (error) {
+    console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
@@ -60,6 +61,7 @@ const readAllComment = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.OK).json({ comments });
   } catch (error) {
+    console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
@@ -85,6 +87,7 @@ const updateComment = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.CREATED).json({ comment });
   } catch (error) {
+    console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
@@ -111,6 +114,7 @@ const deleteComment = async (req: Request, res: Response) => {
 
     return res.status(StatusCodes.OK).json({ message: "Comment deleted" });
   } catch (error) {
+    console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
