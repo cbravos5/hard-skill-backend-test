@@ -110,7 +110,7 @@ test("delete an Author", async () => {
 
   expect(res.statusCode).toBe(StatusCodes.OK);
 
-  const deleted = await Author.findOne({ id: author._id });
+  const deleted = await Author.findById(author._id);
 
   expect(deleted).toBeFalsy();
 });
