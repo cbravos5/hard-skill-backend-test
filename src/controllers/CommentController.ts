@@ -1,6 +1,5 @@
 import Article from "@/models/Article";
-import Author from "@/models/Author";
-import Comment, { IComment } from "@models/Comment";
+import Comment from "@models/Comment";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
