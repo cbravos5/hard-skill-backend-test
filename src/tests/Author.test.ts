@@ -220,9 +220,5 @@ test("delete an Author with active articles", async () => {
 
   const res = await request.delete(`/authors/delete/${author._id}`);
 
-  expect(res.statusCode).toBe(StatusCodes.OK);
-
-  const deleted = await Author.findById(author._id);
-
-  expect(deleted).toBeFalsy();
+  expect(res.statusCode).toBe(StatusCodes.CONFLICT);
 });
