@@ -39,9 +39,9 @@ const readComment = async (req: Request, res: Response) => {
 
 const readAllComment = async (req: Request, res: Response) => {
   try {
-    const categories = await Comment.find();
+    const comments = await Comment.find();
 
-    return res.status(StatusCodes.OK).json({ categories });
+    return res.status(StatusCodes.OK).json({ comments });
   } catch (error) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
