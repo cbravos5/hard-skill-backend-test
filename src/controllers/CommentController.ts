@@ -41,7 +41,7 @@ const readComment = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const comment = await Comment.findById(id).populate("article");
+    const comment = await Comment.findById(id);
 
     if (!comment)
       return res
