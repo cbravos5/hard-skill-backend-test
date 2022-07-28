@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import app from "./app";
-import { APP_PORT, DB } from "@/configs/config";
+import { APP_PORT, DB_URI } from "@/configs/config";
 
-const dbURI = `mongodb+srv://${DB.USER}:${DB.PASSWORD}@cluster0.nlxbj.mongodb.net/?retryWrites=true&w=majority`;
+const dbURI = DB_URI;
 
 const options = {
   useNewUrlParser: true,

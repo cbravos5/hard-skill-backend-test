@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "npm run nodemon",
-    "start": "export APP_ENV=production; node -r ts-node/register/transpile-only -r tsconfig-paths/register -r dotenv/config build/index.js",
+    "start": "npm run nodemon",
     "build": "tsc",
     "nodemon": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' -r ts-node/register/transpile-only -r tsconfig-paths/register -r dotenv/config --exec 'ts-node --files' src/index.ts",
     "test": "jest --runInBand ./src/tests",
